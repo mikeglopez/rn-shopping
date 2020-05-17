@@ -16,10 +16,10 @@ import OrderItem from '../../components/shop/OrderItem';
 import * as ordersActions from '../../store/actions/orders';
 import Colors from '../../constants/Colors';
 
-const OrdersScreen = (props) => {
+const OrdersScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const orders = useSelector((state) => state.orders.orders);
+  const orders = useSelector(state => state.orders.orders);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,11 +37,19 @@ const OrdersScreen = (props) => {
     );
   }
 
+  if (orders.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>No orders found, maybe start ordering some products?</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={orders}
-      keyExtractor={(item) => item.id}
-      renderItem={(itemData) => (
+      keyExtractor={item => item.id}
+      renderItem={itemData => (
         <OrderItem
           amount={itemData.item.totalAmount}
           date={itemData.item.readableDate}
@@ -52,7 +60,7 @@ const OrdersScreen = (props) => {
   );
 };
 
-OrdersScreen.navigationOptions = (navData) => {
+OrdersScreen.navigationOptions = navData => {
   return {
     headerTitle: 'Your Orders',
     headerLeft: () => (
