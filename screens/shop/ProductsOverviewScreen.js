@@ -18,11 +18,11 @@ import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 import Colors from '../../constants/Colors';
 
-const ProductsOverviewScreen = (props) => {
+const ProductsOverviewScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
-  const products = useSelector((state) => state.products.availableProducts);
+  const products = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
@@ -96,7 +96,7 @@ const ProductsOverviewScreen = (props) => {
       refreshing={isRefreshing}
       data={products}
       keyExtractor={(item, index) => item.id}
-      renderItem={(itemData) => (
+      renderItem={itemData => (
         <ProductItem
           image={itemData.item.imageUrl}
           title={itemData.item.title}
@@ -125,7 +125,7 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = (navData) => {
+export const screenOptions = navData => {
   return {
     headerTitle: 'All Products',
     headerLeft: () => (
