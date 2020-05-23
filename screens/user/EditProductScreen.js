@@ -116,7 +116,19 @@ const EditProductScreen = props => {
   // cycle -- only if submitHandler has changed (never changes,
   // means this will only execute once)
   useEffect(() => {
-    props.navigation.setParams({ submit: submitHandler });
+    props.navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title='Save'
+            iconName={
+              Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
+            }
+            onPress={submitHandler}
+          />
+        </HeaderButtons>
+      )
+    });
   }, [submitHandler]);
 
   const inputChangeHandler = useCallback(
@@ -205,21 +217,9 @@ const EditProductScreen = props => {
 };
 
 export const screenOptions = navData => {
-  const submitFn = navData.route.params ? navData.route.params.submit : null;
   const routeParams = navData.route.params ? navData.route.params : {};
   return {
-    headerTitle: routeParams.productId ? 'Edit Product' : 'Add Product',
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title='Save'
-          iconName={
-            Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
-          }
-          onPress={submitFn}
-        />
-      </HeaderButtons>
-    )
+    headerTitle: routeParams.productId ? 'Edit Product' : 'Add Product'
   };
 };
 
